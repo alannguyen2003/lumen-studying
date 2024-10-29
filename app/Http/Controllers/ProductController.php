@@ -12,15 +12,14 @@ class ProductController extends Controller
 {
     public function index() {
         $data = Product::all();
-        if ($data->count() == 0) {
-            $apiResponse = new ApiResponse(ApiResponseConstant::HTTP_NOT_FOUND, 
-                                            "No products found!",
-                                            null);
-        } else {
-            $apiResponse = new ApiResponse(ApiResponseConstant::HTTP_OK, 
-            "Get all products successful!", 
-                $data);
-        }
+
+        $apiResponse = $data->count() == 0? new ApiResponse(ApiResponseConstant::HTTP_NOT_FOUND,
+                                                            "No products found!",
+                                                            null)
+                                        : new ApiResponse(ApiResponseConstant::HTTP_OK,
+                                                        "Get all products successful!", 
+                                                        $data);
+
         return response()->json(
         $apiResponse->returnData()
         );
