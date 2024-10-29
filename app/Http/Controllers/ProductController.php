@@ -2,15 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Constant\ApiResponseConstant;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\DTO\Response\ApiResponse;
 use App\Models\Product;
-use Petstore30\ApiResponse;
 
 class ProductController extends Controller
 {
     public function index() {
-        return response()->json();
+        $data = Product::all();
+        if ($data->count() == 0) {
+            $apiResponse = new ApiResponse(ApiResponseConstant::HTTP_NOT_FOUND, 
+                                            "No products found!",
+                                            null);
+        } else {
+            $apiResponse = new ApiResponse(ApiResponseConstant::HTTP_OK, 
+            "Get all products successful!", 
+                $data);
+        }
+        return response()->json(
+        $apiResponse->returnData()
+        );
     }
 
     public function findById($id) {

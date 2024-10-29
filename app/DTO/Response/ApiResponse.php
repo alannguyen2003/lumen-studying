@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\DTO\Response;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -15,5 +15,13 @@ class ApiResponse
       $this->statusCode = $statusCode;
       $this->message = $message;
       $this->data = $data;
+    }
+
+    public function returnData() {
+      return [
+        "statusCode" => $this->statusCode,
+        "message" => $this->message,
+        'data' => $this->data
+      ];
     }
 }
