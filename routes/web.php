@@ -18,13 +18,13 @@ $router->get('/', function () use ($router) {
 });
 
 $router->group([ 'prefix' => 'api/v1'], function () use ($router) {
-    //Product Routes
-    $router->get('/products/index', 'ProductController@index');
-    $router->get('/products/{id}', 'ProductController@findById');
-    $router->delete('/products/delete/{id}', 'ProductController@deleteById');
-});
 
-$router->group([ 'prefix' => 'api/v2'], function () use ($router) {
+    //Authentication and Authorization routes
+    $router->post('login', 'AuthController@login');
+    $router->post('logout', 'AuthController@logout');
+    $router->post('refresh', 'AuthController@refresh');
+    $router->post('user-profile', 'AuthController@me');
+
     //Product Routes
     $router->get('/products/index', 'ProductController@index');
     $router->get('/products/{id}', 'ProductController@findById');
