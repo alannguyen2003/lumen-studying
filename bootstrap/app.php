@@ -1,5 +1,5 @@
 <?php
-
+use Tymon\JWTAuth\Providers\LumenServiceProvider;
 require_once __DIR__.'/../vendor/autoload.php';
 
 (new Laravel\Lumen\Bootstrap\LoadEnvironmentVariables(
@@ -26,7 +26,6 @@ $app = new Laravel\Lumen\Application(
 $app->withFacades();
 
 $app->withEloquent();
-
 /*
 |--------------------------------------------------------------------------
 | Register Container Bindings
@@ -60,8 +59,8 @@ $app->singleton(
 */
 
 $app->configure('app');
-$app->configure('swagger-lume');
-
+$app->configure('auth');
+$app->configure('jwt');
 /*
 |--------------------------------------------------------------------------
 | Register Middleware
@@ -95,6 +94,7 @@ $app->register(Flipbox\LumenGenerator\LumenGeneratorServiceProvider::class);
 $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);
 $app->register(App\Providers\EventServiceProvider::class);
+$app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Constant\ApiResponseConstant;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\DTO\Response\ApiResponse;
 use App\Models\Product;
 
@@ -18,7 +17,7 @@ class ProductController extends Controller
                                                             null)
                                         : new ApiResponse(ApiResponseConstant::HTTP_OK,
                                                         "Get all products successful!", 
-                                                        $data);
+                                                            $data);
 
         return response()->json(
         $apiResponse->returnData()

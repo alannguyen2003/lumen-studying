@@ -1,0 +1,32 @@
+version: '3.8'
+services:
+  product-db:
+    container_name: product-db
+    image: mysql:5.7.38
+    restart: always
+    ports:
+      - "3308:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: demoproducts
+  lumen-api:
+    container_name: product-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    environment:
+      APP_ENV: local
+      APP_DEBUG: 'true'
+      APP_KEY: base64:c/EgS4XmC9Tp+8Y/dW3DnG3BCNQdvdBORtIiqFjbGtw=
+      APP_LOCALE: en
+      APP_FALLBACK_LOCALE: en
+      DB_CONNECTION: mysql
+      DB_HOST: 127.0.0.1
+      DB_DATABASE: demoproducts
+      DB_USERNAME: root
+      DB_PASSWORD: password
+    depends_on:
+      - product-db
+    command: php -S 0.0.0.0:8000 public/index.php
