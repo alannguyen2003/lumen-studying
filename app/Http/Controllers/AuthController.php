@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DTO\Response\ApiResponse;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,11 +33,15 @@ class AuthController extends Controller
         if (! $token = Auth::attempt($credentials)) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
-
-        return $this->respondWithToken($token);
+        $token = $this->respondWithToken($token);
+        $returnResponse = new ApiResponse(200, "Authentication successfully!", 
+                                            $token);
+        return response()->json(
+            $returnResponse->returnData()
+        );
     }
 
-     /**
+    /**
      * Get the authenticated User.
      *
      * @return \Illuminate\Http\JsonResponse
@@ -80,7 +85,6 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
-            'user' => auth()->user(),
             'expires_in' => auth()->factory()->getTTL() * 60 * 24
         ]);
     }
